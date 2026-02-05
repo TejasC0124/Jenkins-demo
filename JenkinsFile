@@ -3,18 +3,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checkout from Git'
+                git 'https://github.com/TejasC0124/Jenkins-demo.git'
             }
         }
-        stage('Build') {
+        stage('Compile') {
             steps {
-                echo 'Build from Git'
+                bat 'javac Program.java'
             }
         }
-        stage('Test') {
+        stage('Run') {
             steps {
-                echo 'Test from Git'
+                bat 'java Program'
             }
+        }
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: '*.class'
+            echo 'CI PIPELINE SUCCESS'
+        }
+        failure {
+            echo 'CI PIPELINE FAILED'
         }
     }
 }
